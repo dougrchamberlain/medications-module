@@ -1,3 +1,3 @@
-import { environment } from './environment.dev';
+import { environment, API_URL, severityLevels } from './environment.dev';
 
-export { environment };
+export { environment, API_URL, severityLevels };

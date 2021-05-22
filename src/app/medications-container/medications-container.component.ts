@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../environments/environment';
+import { severityLevels } from '../../environments/environment';
 import { MedicationsService } from '../medications.service';
 import { TelemetryService } from '../telemetry.service';
 
@@ -12,6 +12,7 @@ import { TelemetryService } from '../telemetry.service';
 export class MedicationsContainerComponent implements OnInit {
   patientMedication$: any;
   fragment: any;
+  patientMeds: any[] = [];
   constructor(
     private medications: MedicationsService,
     private route: ActivatedRoute,
@@ -29,10 +30,10 @@ export class MedicationsContainerComponent implements OnInit {
     this.patientMedication$.subscribe({
       next: (data: any) => {
         console.log(data);
-        this.medications = data.PatientOcularMeds;
+        this.patientMeds.push(data.PatientOcularMeds);
       },
       error: (err: Error) =>
-        this.telemetry.logException(err, environment.severity.HIGHEST)
+        this.telemetry.logException(err, severityLevels.HIGHEST)
     });
   }
 
