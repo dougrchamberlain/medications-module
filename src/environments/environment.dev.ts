@@ -6,7 +6,7 @@ export const environment = {
     instrumentationKey: '00dfa4ac-871d-4f8b-be70-fb7029e445bb'
   },
   production: false,
-  severityLevel: {
+  severity: {
     HIGHEST: 100000
   }
 };
