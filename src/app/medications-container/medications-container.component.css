@@ -1,9 +1,9 @@
-.example-list {
-  width: 500px;
-  max-width: 100%;
+mat-list {
+  width: fit-content;
+  max-width: 45vw;
   border: solid 1px #ccc;
   min-height: 60px;
-  display: block;
+
   background: white;
   border-radius: 4px;
   overflow: hidden;

@@ -1,9 +1,9 @@
-<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-  <div class="example-box" *ngFor="let item of patientMeds" cdkDrag>
+<mat-list cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+  <mat-list-item class="example-box" *ngFor="let item of patientMeds" cdkDrag>
     <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
     {{item.MedicationText}}
-  </div>
-</div>
+  </mat-list-item>
+</mat-list>
 
 
 <!-- Copyright 2021 Google LLC. All Rights Reserved.
