@@ -1,3 +1,8 @@
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem
+} from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { severityLevels } from '../../environments/environment';
@@ -39,5 +44,13 @@ export class MedicationsContainerComponent implements OnInit {
 
   ngOnDestroy() {
     this.patientMedication$.unsubscribe();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 }
