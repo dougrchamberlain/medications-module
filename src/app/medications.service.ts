@@ -32,9 +32,9 @@ export class MedicationsService extends ObservableStore<StoreState> {
           data.PracticeFileTypeModels,
           environment.jmesPathSearchString
         );
-        this.setState({ documents }, StoreActions.GetDocuments);
+        this.setState({ documents }, 'GET_MEDICATIONS');
       },
-      error: error => {
+      error: (error: any) => {
         console.log(error);
       }
     });
