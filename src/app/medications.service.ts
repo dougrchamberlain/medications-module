@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
 import { Observable } from 'rxjs';
 import { API_URL, environment } from '../environments/environment';
-import * as jmsepath from 'jmsepath';
+import * as jmsepath from 'jmespath';
+
+interface Medication {}
 
 @Injectable({ providedIn: 'root' })
 export class MedicationsService extends ObservableStore<StoreState> {
