@@ -30,7 +30,7 @@ export class MedicationsContainerComponent implements OnInit {
     this.patientMedication$.subscribe({
       next: (data: any) => {
         console.log(data);
-        this.patientMeds.push(data.PatientOcularMeds);
+        this.patientMeds = data.PatientOcularMeds;
       },
       error: (err: Error) =>
         this.telemetry.logException(err, severityLevels.HIGHEST)
