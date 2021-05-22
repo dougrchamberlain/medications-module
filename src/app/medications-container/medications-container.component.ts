@@ -47,10 +47,6 @@ export class MedicationsContainerComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex
-    );
+    moveItemInArray(this.patientMeds, event.previousIndex, event.currentIndex);
   }
 }
