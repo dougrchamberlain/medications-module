@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../environments/environment';
 import { MedicationsService } from '../medications.service';
 import { TelemetryService } from '../telemetry.service';
 
@@ -19,7 +20,7 @@ export class MedicationsContainerComponent implements OnInit {
 
   ngOnInit() {
     this.route.fragment.subscribe((data: any) => {
-      console.log(data);
+      console.log('fragment', data);
       this.fragment = data;
     });
     this.telemetry.logPageView('medications', this.route.fragment);
@@ -30,7 +31,8 @@ export class MedicationsContainerComponent implements OnInit {
         console.log(data);
         this.medications = data.PatientOcularMeds;
       },
-      error: err => this.telemetry.logException(err)
+      error: (err: Error) =>
+        this.telemetry.logException(err, environment.severity.HIGHEST)
     });
   }
 
