@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ObservableStore } from '@codewithdan/observable-store';
+import { ObservableStore, StateHistory } from '@codewithdan/observable-store';
 import { Observable } from 'rxjs';
 import { API_URL, environment } from '../environments/environment';
 import * as jmsepath from 'jmespath';
@@ -11,6 +11,7 @@ interface Medication {}
 @Injectable({ providedIn: 'root' })
 export class MedicationsService extends ObservableStore<StoreState> {
   apiPath: string = API_URL;
+  lastState: any;
   constructor(private client: HttpClient) {
     super({ trackStateHistory: true });
     const initialState: StoreState = {
@@ -18,6 +19,14 @@ export class MedicationsService extends ObservableStore<StoreState> {
     };
     this.setState(initialState, 'INIT_STATE');
   }
+
+  undo() {
+    this.lastState = this.stateHistory.pop() || undefined;
+    this.setState(this.lastState, 'UNDO_MEDICATIONS');
+    console.log(this.lastState);
+  }
+
+  redo() {}
 
   get(id: any): Observable<Medication[]> {
     const o$ = this.client.post<any>(
@@ -28,11 +37,11 @@ export class MedicationsService extends ObservableStore<StoreState> {
 
     o$.subscribe({
       next: (data: any) => {
-        const documents = jmsepath.search(
+        const medications = jmsepath.search(
           data.PracticeFileTypeModels,
           environment.jmesPathSearchString
         );
-        this.setState({ documents }, 'GET_MEDICATIONS');
+        this.setState({ medications }, 'GET_MEDICATIONS');
       },
       error: (error: any) => {
         console.log(error);
@@ -43,9 +52,9 @@ export class MedicationsService extends ObservableStore<StoreState> {
   }
 
   applySortOrder(medications: Medication[]) {
-    this.setState({ medications }, 'SORT_MEDICATIONS');
+    return this.setState({ medications }, 'SORT_MEDICATIONS');
   }
-  select(doc: Medication) {
+  select() {
     throw new Error('not implemented');
   }
 }
