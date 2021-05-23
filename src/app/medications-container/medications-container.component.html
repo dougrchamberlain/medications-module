@@ -1,11 +1,17 @@
-<mat-list cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-  <mat-list-item class="example-box" *ngFor="let item of patientMeds" cdkDrag cdkDragLockAxis="y">
-    <mat-list-item class="example-custom-placeholder" *cdkDragPlaceholder>&nbsp;</mat-list-item>
-    <mat-divider></mat-divider>
-    {{item.MedicationText}}
-  </mat-list-item>
+<div id="boundary">
+  <mat-list cdkDragBoundary="boundary" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <mat-list-item class="example-box" *ngFor="let item of patientMeds" cdkDrag cdkDragLockAxis="y">
+      <mat-list-item class="example-custom-placeholder" *cdkDragPlaceholder>&nbsp;</mat-list-item>
+      <mat-divider></mat-divider>
+      {{item.MedicationText}}
+    </mat-list-item>
+    <mat-toolbar fxLayout="row" fxLayoutAlign="center none">
+      <button (click)="undo()" matTooltip="Undo" mat-button><mat-icon>undo</mat-icon></button>
+      <button (click)="redo()" matTooltip="Redo" mat-button><mat-icon>redo</mat-icon></button>
+    </mat-toolbar>
+  </mat-list>
 
-</mat-list>
+</div>
 
 
 <!-- Copyright 2021 Google LLC. All Rights Reserved.

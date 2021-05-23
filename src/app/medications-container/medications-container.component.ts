@@ -30,7 +30,7 @@ export class MedicationsContainerComponent implements OnInit {
       this.fragment = data;
     });
     this.telemetry.logPageView('medications', this.route.fragment);
-    this.patientMedication$ = this.medications.get();
+    this.patientMedication$ = this.medications.get(10084);
 
     this.patientMedication$.subscribe({
       next: (data: any) => {
@@ -47,6 +47,14 @@ export class MedicationsContainerComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.patientMeds, event.previousIndex, event.currentIndex);
+    this.medications.applySortOrder(this.patientMeds).subscribe({
+      next() {
+        moveItemInArray(
+          this.patientMeds,
+          event.previousIndex,
+          event.currentIndex
+        );
+      }
+    });
   }
 }

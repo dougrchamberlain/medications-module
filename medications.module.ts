@@ -10,6 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRootComponent } from './src/app/app-root/app-root.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MedicationsService } from './src/app/medications.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   bootstrap: [AppRootComponent],
@@ -30,7 +31,8 @@ export class MedicationsModule {}
     BrowserModule,
     CommonModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    FlexLayoutModule
   ],
   providers: [MedicationsService, TelemetryService]
 })

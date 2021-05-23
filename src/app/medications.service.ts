@@ -4,6 +4,7 @@ import { ObservableStore } from '@codewithdan/observable-store';
 import { Observable } from 'rxjs';
 import { API_URL, environment } from '../environments/environment';
 import * as jmsepath from 'jmespath';
+import { Exception } from '@microsoft/applicationinsights-web/dist/applicationinsights-web.rollup';
 
 interface Medication {}
 
@@ -13,8 +14,7 @@ export class MedicationsService extends ObservableStore<StoreState> {
   constructor(private client: HttpClient) {
     super({ trackStateHistory: true });
     const initialState: StoreState = {
-      documents: [],
-      document: { url: '', description: '', subtype: '', type: '' }
+      medications: []
     };
     this.setState(initialState, 'INIT_STATE');
   }
@@ -42,11 +42,13 @@ export class MedicationsService extends ObservableStore<StoreState> {
     return o$;
   }
 
+  applySortOrder(medications: Medication[]) {
+    this.setState({ medications }, 'SORT_MEDICATIONS');
+  }
   select(doc: Medication) {
-    this.setState({ document: doc });
+    throw new Error('not implemented');
   }
 }
 export interface StoreState {
-  documents: Medication[];
-  document: Medication | null;
+  medications: Medication[];
 }
