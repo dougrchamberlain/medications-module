@@ -23,7 +23,6 @@ export class MedicationsService extends ObservableStore<StoreState> {
   undo() {
     this.lastState = this.stateHistory.pop() || undefined;
     this.setState(this.lastState, 'UNDO_MEDICATIONS');
-    console.log(this.lastState);
   }
 
   redo() {}
