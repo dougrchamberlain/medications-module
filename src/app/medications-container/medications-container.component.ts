@@ -69,5 +69,6 @@ export class MedicationsContainerComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>) {
     this.medications.applySortOrder(this.patientMeds);
     moveItemInArray(this.patientMeds, event.previousIndex, event.currentIndex);
+    this.openSnackBar();
   }
 }
