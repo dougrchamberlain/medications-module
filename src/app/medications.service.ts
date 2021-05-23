@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { API_URL, environment } from '../environments/environment';
 import * as jmsepath from 'jmespath';
 import { Exception } from '@microsoft/applicationinsights-web/dist/applicationinsights-web.rollup';
+import { TelemetryService } from './telemetry.service';
+import { C } from '@angular/cdk/keycodes';
 
 interface Medication {}
 
@@ -12,7 +14,7 @@ interface Medication {}
 export class MedicationsService extends ObservableStore<StoreState> {
   apiPath: string = API_URL;
   lastState: any;
-  constructor(private client: HttpClient) {
+  constructor(private client: HttpClient, private telemetry: TelemetryService) {
     super({ trackStateHistory: true });
     const initialState: StoreState = {
       medications: []
@@ -21,8 +23,16 @@ export class MedicationsService extends ObservableStore<StoreState> {
   }
 
   undo() {
-    this.lastState = this.stateHistory.pop() || undefined;
-    this.setState(this.lastState, 'UNDO_MEDICATIONS');
+    let stateHistory:
+      | StateHistory<StoreState>
+      | undefined = this.stateHistory[this.stateHistory.length];
+
+    let medications = stateHistory?.endState.medications;
+    
+    return this.setState(
+      { medications },
+      'UNDO_MEDICATIONS'
+    );
   }
 
   redo() {}
@@ -42,8 +52,9 @@ export class MedicationsService extends ObservableStore<StoreState> {
         );
         this.setState({ medications }, 'GET_MEDICATIONS');
       },
-      error: (error: any) => {
+      error: (error: Error) => {
         console.log(error);
+        this.telemetry.logException(error);
       }
     });
 

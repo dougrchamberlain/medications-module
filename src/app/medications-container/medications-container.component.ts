@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { StateHistory } from '@codewithdan/observable-store';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs/dist/types';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs';
 import { severityLevels } from '../../environments/environment';
 import { MedicationsService, StoreState } from '../medications.service';
 import { TelemetryService } from '../telemetry.service';
@@ -62,12 +63,7 @@ export class MedicationsContainerComponent implements OnInit {
       verticalPosition: 'top'
     });
 
-    let action: ReplaySubject<TextOnlySnackBar> = ref.onAction();
-
-    action.pipe(foo => {
-      console.log(foo);
-      return foo;
-    });
+    let action: Subject<TextOnlySnackBar> = ref.onAction();
     action.subscribe({
       next: (data: any) => {
         console.log(data);
