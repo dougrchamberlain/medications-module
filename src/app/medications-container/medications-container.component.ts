@@ -1,8 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { StateHistory } from '@codewithdan/observable-store';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs/dist/types';
 import { severityLevels } from '../../environments/environment';
 import { MedicationsService, StoreState } from '../medications.service';
 import { TelemetryService } from '../telemetry.service';
@@ -56,14 +57,24 @@ export class MedicationsContainerComponent implements OnInit {
   }
 
   private openSnackBar() {
-    const ref = this._snackBar.open('Message archived', 'Undo', {
+    const ref = this._snackBar.open('Moved! 🎉', 'Undo', {
       horizontalPosition: 'center',
       verticalPosition: 'top'
     });
 
-    let action$ = ref.onAction();
-    console.log(action$);
-    action$;
+    let action: ReplaySubject<TextOnlySnackBar> = ref.onAction();
+
+    action.pipe(foo => {
+      console.log(foo);
+      return foo;
+    });
+    action.subscribe({
+      next: (data: any) => {
+        console.log(data);
+        this.undo();
+      },
+      error: undefined
+    });
   }
 
   drop(event: CdkDragDrop<string[]>) {
